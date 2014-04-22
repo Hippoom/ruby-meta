@@ -27,7 +27,6 @@ end
 class PaymentAmountModifiedEvent
   attr_reader :sequence
   attr_reader :amount
-
   def initialize(sequence, amount)
     @sequence=sequence
     @amount=amount
@@ -43,6 +42,26 @@ class PaymentAmountModifiedEvent
 
   def state
     [@sequence, @amount]
+  end
+
+end
+
+class PaymentClosedEvent
+  attr_reader :sequence
+  def initialize(sequence)
+    @sequence=sequence
+  end
+
+  def ==(o)
+    o.class == self.class && o.state == o.state
+  end
+
+  def hash
+    state.hash
+  end
+
+  def state
+    [@sequence]
   end
 
 end

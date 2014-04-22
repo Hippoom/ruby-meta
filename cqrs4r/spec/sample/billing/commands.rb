@@ -14,11 +14,20 @@ end
 
 class ModifyPaymentAmountCommand
   include CommandHandling::AnonymousAggregateRootCommand
-  attr_reader :sequence
+  target_aggregate_root_identity :sequence
   attr_reader :amount
   
   def initialize(sequence, amount)
     @sequence=sequence
     @amount = amount
+  end
+end
+
+class ClosePaymentCommand
+  include CommandHandling::AnonymousAggregateRootCommand
+  target_aggregate_root_identity :sequence
+  
+  def initialize(sequence)
+    @sequence=sequence
   end
 end

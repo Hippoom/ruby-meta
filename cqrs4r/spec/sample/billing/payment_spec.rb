@@ -44,6 +44,7 @@ class Fixture
   def then_received_events
     @event_bus.received
   end
+
 end
 
 describe Payment do
@@ -56,7 +57,7 @@ describe Payment do
   end
 
   context 'when receives MakePaymentCommand' do
-    it "should publish PaymentMadeEvent" do
+    it 'should publish PaymentMadeEvent' do
 
       order_id = '1'
       amount = 2
@@ -69,8 +70,25 @@ describe Payment do
     end
   end
 
+  context 'when receives ClosePaymentCommand' do
+    it 'should publish PaymentClosedEvent' do
+
+      order_id = '1'
+      amount = 2
+      type = 'CHECK'
+      sequence = '23ds'
+
+      @fixture.given_events(PaymentMadeEvent.new(sequence, order_id, amount, type))
+
+      @fixture.when_receive(ClosePaymentCommand.new(sequence))
+
+      @fixture.then_received_events.should eq([PaymentClosedEvent.new(sequence)])
+    end
+  end
+
   context 'when receives ModifyPaymentAmountCommand' do
-    it "should publish PaymentAmountModifiedEvent" do
+
+    it 'should publish PaymentAmountModifiedEvent' do
 
       order_id = '1'
       amount = 2
@@ -84,6 +102,23 @@ describe Payment do
       @fixture.when_receive(ModifyPaymentAmountCommand.new(sequence, modified))
 
       @fixture.then_received_events.should eq([PaymentAmountModifiedEvent.new(sequence, modified)])
+    end
+
+    context 'given the payment has been closed' do
+      it 'should throw PaymentClosedException' do
+
+        order_id = '1'
+        amount = 2
+        type = 'CHECK'
+        sequence = '23ds'
+
+        modified = 3
+
+        @fixture.given_events(PaymentMadeEvent.new(sequence, order_id, amount, type), PaymentClosedEvent.new(sequence))
+
+        expect {@fixture.when_receive(ModifyPaymentAmountCommand.new(sequence, modified))}.to raise_error('Cannot modify amount of [' + sequence + '] as it is closed.')
+
+      end
     end
   end
 
