@@ -11,3 +11,14 @@ class MakePaymentCommand
     @type=type
   end
 end
+
+class ModifyPaymentAmountCommand
+  include CommandHandling::AnonymousAggregateRootCommand
+  attr_reader :sequence
+  attr_reader :amount
+  
+  def initialize(sequence, amount)
+    @sequence=sequence
+    @amount = amount
+  end
+end
