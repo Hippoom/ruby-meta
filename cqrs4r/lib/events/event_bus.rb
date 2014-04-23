@@ -1,7 +1,11 @@
 class RecordingEventBus
-  attr_reader :received
+  
   def publish events
     @received = events
+  end
+  
+  def received
+    @received.nil?? []:@received.map {|event_message| event_message.payload}
   end
 end
 

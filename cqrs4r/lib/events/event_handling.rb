@@ -3,6 +3,7 @@ module EventHandling
     module InstanceMethods
       def handle_event event
         handler = event_handler_for event
+
         instance_exec(event, &handler)#shift context as instance variables in blocks are bounded with class
       end
 
@@ -25,7 +26,7 @@ module EventHandling
       def event_handler_for event
         @event_handlers[event.class]
       end
-      
+
       def event_types
         @event_handlers.keys
       end

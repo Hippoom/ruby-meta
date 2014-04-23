@@ -14,14 +14,20 @@ class CommandBus
 
     @command_handlers[command.class].send(:handle_command, command)
 
-    uow.commit
+    commit uow
   end
 
   def new_uow
     uow = UnitOfWork.new
-    current_thread = Thread.current
-    current_thread[:uow]= uow
+    Thread.current[:uow]= uow
     uow
   end
+  
+  def commit uow
+    uow.commit
+    Thread.current[:uow]= nil
+  end
+  
+  private :new_uow, :commit
 end
 
