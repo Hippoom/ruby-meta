@@ -30,19 +30,17 @@ end
 module Repository
   attr_accessor :aggregate_root_type
   attr_accessor :event_bus
-  
   def load id
-    nil
+    ar = do_load(id)
+    current_uow.track(ar, event_bus)
+    ar
   end
 
   def add aggregate_root
-    event_bus.publish(aggregate_root.events)
-    aggregate_root.send(:commit)
-  end
-
-  def store aggregate_root
-    add aggregate_root
+    current_uow.track(aggregate_root, event_bus)
   end
   
-  
+  def current_uow
+    Thread.current[:uow]
+  end
 end

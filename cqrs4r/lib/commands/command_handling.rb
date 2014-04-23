@@ -48,7 +48,6 @@ module CommandHandling
     def delegate_to_ar_to_handle command
       ar  = repository.load(command.target_aggregate_root_identity)
       ar.send(:handle_command,command)
-      repository.store ar
     end
   end
 
