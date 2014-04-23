@@ -10,6 +10,10 @@ module EventHandling
         self.class.send(:event_handler_for, event)
       end
 
+      def event_types
+        self.class.event_types
+      end
+
       private  :handle_event, :event_handler_for
     end
 
@@ -20,6 +24,10 @@ module EventHandling
 
       def event_handler_for event
         @event_handlers[event.class]
+      end
+      
+      def event_types
+        @event_handlers.keys
       end
 
       private :on, :event_handler_for

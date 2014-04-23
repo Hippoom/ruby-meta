@@ -7,7 +7,7 @@ class Fixture
   def initialize aggregate_root_type
     @aggregate_root_type = aggregate_root_type
     @command_bus = CommandBus.new
-    @event_bus = EventBus.new
+    @event_bus = RecordingEventBus.new
     @event_store = EventStore.new
     @repository = EventSourcingRepository.new
     @repository.aggregate_root_type= @aggregate_root_type
