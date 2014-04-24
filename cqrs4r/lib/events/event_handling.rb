@@ -7,6 +7,10 @@ module EventHandling
         instance_exec(event, &handler)#shift context as instance variables in blocks are bounded with class
       end
 
+      def handle_event_message event_message
+        handle_event event_message.payload
+      end
+
       def event_handler_for event
         self.class.send(:event_handler_for, event)
       end

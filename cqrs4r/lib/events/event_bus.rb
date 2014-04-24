@@ -21,10 +21,10 @@ class SimpleEventBus
     end
   end
 
-  def publish events
-    events.each do |event|
-      @event_handlers[event.class].each do |handler|
-        handler.send(:handle_event, event)
+  def publish event_messages
+    event_messages.each do |event_message|
+      @event_handlers[event_message.payload.class].each do |handler|
+        handler.send(:handle_event_message, event_message)
       end
     end
   end

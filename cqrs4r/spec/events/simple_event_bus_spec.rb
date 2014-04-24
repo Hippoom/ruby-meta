@@ -7,8 +7,8 @@ describe SimpleEventBus do
 
   context 'when receive events' do
     it 'should publish them to corresponding handlers' do
-      an_event = SampleEvent.new('event1')
-      another_event = SampleEvent.new('event2')
+      an_event = DomainEventMessage.new('id',1, SampleEvent.new('event1'))
+      another_event = DomainEventMessage.new('id',2, SampleEvent.new('event2'))
 
       a_handler = HandlerForSampleEvent.new
       another_handler = HandlerForSampleEvent.new
@@ -20,9 +20,9 @@ describe SimpleEventBus do
 
       @event_bus.publish [an_event, another_event]
 
-      a_handler.received.should eql([an_event, another_event])
-      another_handler.received.should eql([an_event, another_event])
-      an_irrelevant_handler.received.should_not eql([an_event, another_event])
+      a_handler.received.should eql([an_event.payload(), another_event.payload()])
+      another_handler.received.should eql([an_event.payload(), another_event.payload()])
+      an_irrelevant_handler.received.should be_nil
     end
   end
 end
