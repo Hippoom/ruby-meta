@@ -10,24 +10,23 @@ class CommandBus
   end
 
   def dispatch command
-    uow = new_uow
+    create_uow
 
     @command_handlers[command.class].send(:handle_command, command)
 
-    commit uow
+    commit_uow
   end
 
-  def new_uow
-    uow = UnitOfWork.new
-    Thread.current[:uow]= uow
-    uow
+  private
+
+  def create_uow
+    CurrentUnitOfWork.create
   end
-  
-  def commit uow
-    uow.commit
-    Thread.current[:uow]= nil
+
+  def commit_uow
+    CurrentUnitOfWork.get.commit
+    CurrentUnitOfWork.clear
   end
-  
-  private :new_uow, :commit
+
 end
 

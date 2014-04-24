@@ -51,6 +51,8 @@ module AggregateRoot
   end
 end
 
+require_relative '../uow/uow'
+
 module Repository
   attr_accessor :aggregate_root_type
   attr_accessor :event_bus
@@ -65,7 +67,7 @@ module Repository
   end
 
   def current_uow
-    Thread.current[:uow]
+    CurrentUnitOfWork.get
   end
 end
 
