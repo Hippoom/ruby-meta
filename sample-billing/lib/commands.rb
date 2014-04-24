@@ -1,3 +1,5 @@
+require 'commands/command_handling'
+
 class MakePaymentCommand
   attr_reader :sequence
   attr_reader :order_id

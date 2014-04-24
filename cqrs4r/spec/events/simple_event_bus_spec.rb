@@ -1,4 +1,4 @@
-require_relative '../required'
+require_relative '../../lib/events/event_bus'
 
 describe SimpleEventBus do
   before(:each) do

@@ -1,3 +1,8 @@
+require 'events/event_sourcing'
+require 'commands/command_handling'
+require 'commands'
+require 'events'
+
 class Payment
   include EventSourcedAggregateRoot
   include CommandHandling::AggregateRootCommandHandler

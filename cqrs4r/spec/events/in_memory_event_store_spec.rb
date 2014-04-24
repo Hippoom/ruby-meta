@@ -1,4 +1,4 @@
-require_relative '../required'
+require_relative '../../lib/events/event_store'
 
 describe InMemoryEventStore do
   before(:each) do

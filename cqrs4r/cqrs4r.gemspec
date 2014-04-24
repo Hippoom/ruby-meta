@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
     'lib/events/event_handling.rb',
     'lib/events/event_sourcing.rb',
     'lib/events/event_store.rb',
-    'lib/uow/uow.rb',  
+    'lib/uow/uow.rb', 
+    'lib/test/fixture.rb' 
   ]  
   s.require_paths = ["lib"]  
 end

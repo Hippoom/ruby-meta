@@ -1,4 +1,4 @@
-require_relative '../required'
+require_relative '../../lib/events/event_sourcing'
 
 describe AggregateRoot do
   before(:each) do
